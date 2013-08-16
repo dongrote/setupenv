@@ -142,3 +142,6 @@ git config --global user.email 'don.grote@gmail.com'
 git config --global color.diff auto
 git config --global color.status auto
 git config --global color.branch auto
+
+# install virtualenv for python dev
+sudo pip install virtualenv || sudo easy_install virtualenv
