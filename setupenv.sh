@@ -103,9 +103,11 @@ set cursorline
 set number
 EOF
 
+# bash aliases
 cat << EOF > $HOME/.bash_aliases
 alias rm='rm -i'
 alias cp='cp -i'
+alias mv='mv -i'
 alias sl='ls'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -117,6 +119,7 @@ alias ........='cd ../../../../../../..'
 alias .........='cd ../../../../../../../..'
 EOF
 
+# setup python tab-completion
 cat << EOF > $HOME/.pythonrc
 #!/usr/bin/python
 import os
@@ -133,6 +136,7 @@ EOF
 
 echo "export PYTHONSTARTUP=~/.pythonrc" >> $HOME/.bashrc
 
+# git configuration; I hate forgetting these things
 git config --global user.name 'Don Grote'
 git config --global user.email 'don.grote@gmail.com'
 git config --global color.diff auto
