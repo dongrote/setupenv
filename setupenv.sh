@@ -125,7 +125,6 @@ cat << EOF > $HOME/.pythonrc
 import os
 import sys
 
-sys.path.append('/usr/local/lib/python2.7/dist-packages')
 try:
     import readline
 except ImportError:
