@@ -117,6 +117,7 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 alias .........='cd ../../../../../../../..'
+alias objdbin_x86='objdump -D -b binary -mi386'
 EOF
 
 # setup python tab-completion
