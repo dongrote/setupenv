@@ -146,3 +146,4 @@ git config --global color.branch auto
 
 # install virtualenv for python dev
 sudo pip install virtualenv || sudo easy_install virtualenv
+sudo pip install mitmproxy
