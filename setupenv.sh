@@ -118,7 +118,10 @@ alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 alias .........='cd ../../../../../../../..'
 alias objdbin_x86='objdump -D -b binary -mi386'
+alias idlecp='ionice -c 3 cp'
+todo(){ cd ~/.todo||return 1&& l=$(ls -1t|head -n1)&&t=$(date +%Y%m%d);[[ "$1" == "last" ]]&&cp $l $t; ${EDITOR:-vim} $t;cd -;} # Todo list.
 EOF
+
 
 # setup python tab-completion
 cat << EOF > $HOME/.pythonrc
@@ -135,7 +138,10 @@ else:
 	readline.parse_and_bind("tab: complete")
 EOF
 
-echo "export PYTHONSTARTUP=~/.pythonrc" >> $HOME/.bashrc
+cat << EOF >> $HOME/.bashrc
+export PYTHONSTARTUP=~/.pythonrc
+export PATH=$PATH:$HOME/bin
+EOF
 
 # git configuration; I hate forgetting these things
 git config --global user.name 'Don Grote'
@@ -147,3 +153,53 @@ git config --global color.branch auto
 # install virtualenv for python dev
 sudo pip install virtualenv || sudo easy_install virtualenv
 sudo pip install mitmproxy
+
+# create home directory for todo list command in $HOME/.bash_aliases
+mkdir $HOME/.todo
+
+mkdir $HOME/bin
+cat << EOF > $HOME/bin/dircmp
+#!/bin/bash
+comm -3 <(ls -1 $1) <(ls -1 $2)
+EOF
+chmod +x $HOME/bin/dircmp
+
+cat <<EOF > $HOME/bin/hex2dec
+#!/bin/bash
+cmd="ibase=16"
+for num in $@
+do
+	cmd="$cmd; $num"
+done
+echo $cmd | bc
+EOF
+
+cat <<EOF > $HOME/bin/dec2hex
+#!/bin/bash
+cmd="obase=16"
+for num in $@
+do
+	cmd="$cmd; $num"
+done
+echo $cmd | bc
+EOF
+
+cat <<EOF > $HOME/bin/dec2bin
+#!/bin/bash
+cmd="obase=2"
+for num in $@
+do
+	cmd="$cmd; $num"
+done
+echo $cmd | bc
+EOF
+
+cat <<EOF > $HOME/bin/bin2dec
+#!/bin/bash
+cmd="ibase=2"
+for num in $@
+do
+	cmd="$cmd; $num"
+done
+echo $cmd | bc
+EOF
