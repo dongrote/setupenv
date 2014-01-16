@@ -101,6 +101,25 @@ set tabstop=4
 set softtabstop=4
 set cursorline
 set number
+
+" Formats the statusline
+set statusline=%f                           " file name
+"set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
+"set statusline+=%{&ff}] "file format
+"set statusline+=%y      "filetype
+"set statusline+=%h      "help file flag
+set statusline+=%m      "modified flag
+set statusline+=%r      "read only flag
+
+" Puts in the current git status
+set statusline+=\ %{fugitive#statusline()}
+
+set statusline+=\ %=                        " align left
+"set statusline+=Line:%l/%L[%p%%]            " line X of Y [percent of file]
+set statusline+=Line:%l/%L                  " line X of Y
+set statusline+=\ Col:%c                    " current column
+set statusline+=\ Buf:%n                    " Buffer number
+"set statusline+=\ [%b][0x%B]\               " ASCII and byte code under cursor
 EOF
 
 # bash aliases
@@ -203,3 +222,9 @@ do
 done
 echo $cmd | bc
 EOF
+
+# install fugitive.vim
+mkdir -p ~/.vim/autoload ~/.vim/bundle; 
+curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+git clone git://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
+echo "execute pathogen#infect()" >> ~/.vimrc
