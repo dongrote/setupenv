@@ -120,6 +120,10 @@ set statusline+=Line:%l/%L                  " line X of Y
 set statusline+=\ Col:%c                    " current column
 set statusline+=\ Buf:%n                    " Buffer number
 "set statusline+=\ [%b][0x%B]\               " ASCII and byte code under cursor
+
+" create F5, F6 mappings to replace current position with ✓ or ✗ respectively
+map <F5> r<C-v>U2713<ESC>
+map <F6> r<C-v>U2717<ESC>
 EOF
 
 # bash aliases
