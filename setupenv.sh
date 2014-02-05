@@ -128,6 +128,7 @@ EOF
 
 # bash aliases
 cat << EOF > $HOME/.bash_aliases
+alias jerbs='jobs'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
