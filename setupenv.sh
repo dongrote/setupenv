@@ -364,4 +364,4 @@ git clone git://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
 echo "execute pathogen#infect()" >> ~/.vimrc
 
 # my PS1
-# PS1='\[\e[m\e[1;30m\][\j:\!\[\e[1;30m\]]\[\e[0;36m\] \t \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\] \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[1;37m\]\w\[\e[38;5;2m\]${GIT_BRANCH}\[\e[0m\]\n$([ $? == 0 ] && echo -e "\e[0;32m:)\e[0m" || echo -e "\e[0;31m:(\e[0m") \$ '
+# PS1='\[\e[m\e[1;30m\][\j:\!\[\e[1;30m\]]\[\e[0;36m\] \t \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\] \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[1;37m\]\w\[\e[38;5;2m\]$([ "$GIT_BRANCH" == ":master" ] && echo -e "\e[0;31m$GIT_BRANCH\e[0m" || echo -e "\e[38;5;2m$GIT_BRANCH\e[0m")\[\e[0m\]\n$([ $? == 0 ] && echo -e "\e[0;32m:)\e[0m" || echo -e "\e[0;31m:(\e[0m") \$ '
