@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt-get -y install vim
+
 cat <<EOF > $HOME/.bash_colors
 #!/bin/bash
 # Reset
@@ -77,7 +79,6 @@ On_IWhite='\\e[0;107m'   # White
 EOF
 
 cat << EOF > $HOME/.vimrc
-execute pathogen#infect()
 au FileType python set ofu=jedi#complete
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -291,6 +292,7 @@ git config --global user.email 'don.grote@gmail.com'
 git config --global color.diff auto
 git config --global color.status auto
 git config --global color.branch auto
+git config --global core.editor $(which vim)
 
 # install virtualenv for python dev
 sudo apt-get install python-pip
@@ -446,4 +448,3 @@ chmod a+x $HOME/bin/flip
 mkdir -p ~/.vim/autoload ~/.vim/bundle; 
 curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 git clone git://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
-echo "execute pathogen#infect()" >> ~/.vimrc
