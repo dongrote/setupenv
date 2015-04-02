@@ -293,7 +293,8 @@ git config --global color.status auto
 git config --global color.branch auto
 
 # install virtualenv for python dev
-sudo pip install virtualenv || sudo easy_install virtualenv
+sudo apt-get install python-pip
+sudo pip install virtualenv
 
 # create home directory for todo list command in $HOME/.bash_aliases
 mkdir $HOME/.todo
