@@ -1,4 +1,81 @@
 #!/bin/bash
+
+cat <<EOF > $HOME/.bash_colors
+#!/bin/bash
+# Reset
+Color_Off='\\e[0m'       # Text Reset
+
+# Regular Colors
+Black='\\e[0;30m'        # Black
+Red='\\e[0;31m'          # Red
+Green='\\e[0;32m'        # Green
+Yellow='\\e[0;33m'       # Yellow
+Blue='\\e[0;34m'         # Blue
+Purple='\\e[0;35m'       # Purple
+Cyan='\\e[0;36m'         # Cyan
+White='\\e[0;37m'        # White
+
+# Bold
+BBlack='\\e[1;30m'       # Black
+BRed='\\e[1;31m'         # Red
+BGreen='\\e[1;32m'       # Green
+BYellow='\\e[1;33m'      # Yellow
+BBlue='\\e[1;34m'        # Blue
+BPurple='\\e[1;35m'      # Purple
+BCyan='\\e[1;36m'        # Cyan
+BWhite='\\e[1;37m'       # White
+
+# Underline
+UBlack='\\e[4;30m'       # Black
+URed='\\e[4;31m'         # Red
+UGreen='\\e[4;32m'       # Green
+UYellow='\\e[4;33m'      # Yellow
+UBlue='\\e[4;34m'        # Blue
+UPurple='\\e[4;35m'      # Purple
+UCyan='\\e[4;36m'        # Cyan
+UWhite='\\e[4;37m'       # White
+
+# Background
+On_Black='\\e[40m'       # Black
+On_Red='\\e[41m'         # Red
+On_Green='\\e[42m'       # Green
+On_Yellow='\\e[43m'      # Yellow
+On_Blue='\\e[44m'        # Blue
+On_Purple='\\e[45m'      # Purple
+On_Cyan='\\e[46m'        # Cyan
+On_White='\\e[47m'       # White
+
+# High Intensity
+IBlack='\\e[0;90m'       # Black
+IRed='\\e[0;91m'         # Red
+IGreen='\\e[0;92m'       # Green
+IYellow='\\e[0;93m'      # Yellow
+IBlue='\\e[0;94m'        # Blue
+IPurple='\\e[0;95m'      # Purple
+ICyan='\\e[0;96m'        # Cyan
+IWhite='\\e[0;97m'       # White
+
+# Bold High Intensity
+BIBlack='\\e[1;90m'      # Black
+BIRed='\\e[1;91m'        # Red
+BIGreen='\\e[1;92m'      # Green
+BIYellow='\\e[1;93m'     # Yellow
+BIBlue='\\e[1;94m'       # Blue
+BIPurple='\\e[1;95m'     # Purple
+BICyan='\\e[1;96m'       # Cyan
+BIWhite='\\e[1;97m'      # White
+
+# High Intensity backgrounds
+On_IBlack='\\e[0;100m'   # Black
+On_IRed='\\e[0;101m'     # Red
+On_IGreen='\\e[0;102m'   # Green
+On_IYellow='\\e[0;103m'  # Yellow
+On_IBlue='\\e[0;104m'    # Blue
+On_IPurple='\\e[0;105m'  # Purple
+On_ICyan='\\e[0;106m'    # Cyan
+On_IWhite='\\e[0;107m'   # White
+EOF
+
 cat << EOF > $HOME/.vimrc
 execute pathogen#infect()
 au FileType python set ofu=jedi#complete
@@ -144,36 +221,36 @@ alias .........='cd ../../../../../../../..'
 alias objdbin_x86='objdump -D -b binary -mi386'
 alias idlecp='ionice -c 3 cp'
 alias what_are_those_damn_conditional_expressions="man bash | sed -n '/^CONDITIONAL EXPRESSIONS/,/^SIMPLE COMMAND/p'"
-todo(){ cd ~/.todo||return 1&& l=$(ls -1t|head -n1)&&t=$(date +%Y%m%d);[[ "$1" == "last" ]]&&cp $l $t; ${EDITOR:-vim} $t;cd -;} # Todo list.
-notes(){ cd ~/.notes||return 1&& l=$(ls -1t|head -n1)&&t=$(date +%Y%m%d);[[ "$1" == "last" ]]&&cp $l $t; ${EDITOR:-vim} $t;cd -;} # Todo list.
+todo(){ cd ~/.todo||return 1&& l=\$(ls -1t|head -n1)&&t=\$(date +%Y%m%d);[[ "\$1" == "last" ]]&&cp \$l \$t; \${EDITOR:-vim} \$t;cd -;} # Todo list.
+notes(){ cd ~/.notes||return 1&& l=\$(ls -1t|head -n1)&&t=\$(date +%Y%m%d);[[ "\$1" == "last" ]]&&cp \$l \$t; \${EDITOR:-vim} \$t;cd -;} # Todo list.
 tagsearch(){ cd ~/.notes||return 1&& grep -H -i "#$1" *; cd - > /dev/null;} #search for tags
 alias zsnes='zsnes -ad sdl'
-alias cleanpyc='rm -f $(find . -name "*.pyc")'
+alias cleanpyc='rm -f \$(find . -name "*.pyc")'
 function fuck() {
-  killall -9 $2;
-  if [ $? == 0 ]
+  killall -9 \$2;
+  if [ \$? == 0 ]
   then
     echo
-	echo " (╯°□°）╯︵$(echo $2|flip &2>/dev/null)"
+	echo " (╯°□°）╯︵\$(echo \$2|flip &2>/dev/null)"
     echo
   fi
 }
 function gitbranch() {
   git status 2>/dev/null 1>&2
-  if [ $? == 0 ]
+  if [ \$? == 0 ]
   then
-    statuslinecount=$(git status | wc -l)
-	if [ $statuslinecount -gt 2 ]
+    statuslinecount=\$(git status | wc -l)
+	if [ \$statuslinecount -gt 2 ]
 	then
-	  colorcode=$Red
+	  colorcode=\$Red
 	else
-	  colorcode=$Green
+	  colorcode=\$Green
 	fi
-    branchname=$(git branch | grep "^\*" | cut -f2 -d" ")
-	GIT_BRANCH_COLOR=$colorcode
-	GIT_BRANCH=":$branchname"
+    branchname=\$(git branch | grep "^\*" | cut -f2 -d" ")
+	GIT_BRANCH_COLOR=\$colorcode
+	GIT_BRANCH=":\$branchname"
   else
-    GIT_BRANCH_COLOR=$Color_Off
+    GIT_BRANCH_COLOR=\$Color_Off
     GIT_BRANCH=""
   fi
 }
@@ -195,9 +272,17 @@ else:
 	readline.parse_and_bind("tab: complete")
 EOF
 
+# source .bash_colors at beginning of .bashrc
+cp $HOME/.bashrc $HOME/.bashrc.orig
+echo ". \$HOME/.bash_colors" > $HOME/.bashrc
+cat $HOME/.bashrc.orig >> $HOME/.bashrc
+rm -f $HOME/.bashrc.orig
+
 cat << EOF >> $HOME/.bashrc
 export PYTHONSTARTUP=~/.pythonrc
 export PATH=$PATH:$HOME/bin
+PROMPT_COMMAND='gitbranch'
+PS1='\$([ \$? == 0 ] && echo -en "\\e[0;32m=)\\e[0m" || echo -en "\\e[0;31m=(\\e[0m") \[\\e[m\\e[1;30m\][\j:\!\[\\e[1;30m\]]\[\\e[0;36m\] \t \d \[\\e[1;30m\][\[\\e[1;34m\]\u@\H\[\\e[1;30m\]:\[\\e[0;37m\] \[\\e[0;32m\]+\${SHLVL}\[\\e[1;30m\]] \[\\e[1;37m\]\w\[\\e[38;5;2m\]\$([ "\$GIT_BRANCH" == ":master" ] && echo -e "\\e[1;31m\$GIT_BRANCH\\e[0m" || echo -e "\\e[38;5;2m\$GIT_BRANCH\\e[0m")\[\\e[0m\]\n\\\$ '
 EOF
 
 # git configuration; I hate forgetting these things
@@ -209,7 +294,6 @@ git config --global color.branch auto
 
 # install virtualenv for python dev
 sudo pip install virtualenv || sudo easy_install virtualenv
-sudo pip install mitmproxy
 
 # create home directory for todo list command in $HOME/.bash_aliases
 mkdir $HOME/.todo
@@ -217,51 +301,51 @@ mkdir $HOME/.todo
 mkdir $HOME/bin
 cat << EOF > $HOME/bin/dircmp
 #!/bin/bash
-comm -3 <(ls -1 $1) <(ls -1 $2)
+comm -3 <(ls -1 \$1) <(ls -1 \$2)
 EOF
 chmod a+x $HOME/bin/dircmp
 
 cat <<EOF > $HOME/bin/hex2dec
 #!/bin/bash
 cmd="ibase=16"
-for num in $@
+for num in \$@
 do
-	cmd="$cmd; $num"
+	cmd="\$cmd; \$num"
 done
-echo $cmd | bc
+echo \$cmd | bc
 EOF
 chmod a+x $HOME/bin/hex2dec
 
 cat <<EOF > $HOME/bin/dec2hex
 #!/bin/bash
 cmd="obase=16"
-for num in $@
+for num in \$@
 do
-	cmd="$cmd; $num"
+	cmd="\$cmd; \$num"
 done
-echo $cmd | bc
+echo \$cmd | bc
 EOF
 chmod a+x $HOME/bin/dec2hex
 
 cat <<EOF > $HOME/bin/dec2bin
 #!/bin/bash
 cmd="obase=2"
-for num in $@
+for num in \$@
 do
-	cmd="$cmd; $num"
+	cmd="\$cmd; \$num"
 done
-echo $cmd | bc
+echo \$cmd | bc
 EOF
 chmod a+x $HOME/bin/dec2bin
 
 cat <<EOF > $HOME/bin/bin2dec
 #!/bin/bash
 cmd="ibase=2"
-for num in $@
+for num in \$@
 do
-	cmd="$cmd; $num"
+	cmd="\$cmd; \$num"
 done
-echo $cmd | bc
+echo \$cmd | bc
 EOF
 chmod a+x $HOME/bin/bin2dec
 
@@ -348,9 +432,9 @@ my %flipTable = (
 );
 
 while ( <> ) {
-    my $string = reverse( $_ );
-    while ($string =~ /(.)/g) {
-        print $flipTable{$1};
+    my \$string = reverse( \$_ );
+    while (\$string =~ /(.)/g) {
+        print \$flipTable{\$1};
     }
     print qq(\n);
 }
@@ -362,6 +446,3 @@ mkdir -p ~/.vim/autoload ~/.vim/bundle;
 curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 git clone git://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
 echo "execute pathogen#infect()" >> ~/.vimrc
-
-# my PS1
-# PS1='\[\e[m\e[1;30m\][\j:\!\[\e[1;30m\]]\[\e[0;36m\] \t \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\] \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[1;37m\]\w\[\e[38;5;2m\]$([ "$GIT_BRANCH" == ":master" ] && echo -e "\e[0;31m$GIT_BRANCH\e[0m" || echo -e "\e[38;5;2m$GIT_BRANCH\e[0m")\[\e[0m\]\n$([ $? == 0 ] && echo -e "\e[0;32m:)\e[0m" || echo -e "\e[0;31m:(\e[0m") \$ '
