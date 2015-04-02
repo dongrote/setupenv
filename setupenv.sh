@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get -y install vim
+sudo apt-get -y install vim fluxbox
 
 cat <<EOF > $HOME/.bash_colors
 #!/bin/bash
@@ -448,3 +448,6 @@ chmod a+x $HOME/bin/flip
 mkdir -p ~/.vim/autoload ~/.vim/bundle; 
 curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 git clone git://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
+
+# startup vmware-user in fluxbox
+sed -i 's/^exec fluxbox/vmware-user \&\nexec fluxbox/' $HOME/.fluxbox/startup
