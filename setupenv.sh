@@ -297,6 +297,8 @@ git config --global core.editor $(which vim)
 # install virtualenv for python dev
 sudo apt-get install python-pip
 sudo pip install virtualenv
+sudo pip install nose
+sudo pip install coverage
 
 # create home directory for todo list command in $HOME/.bash_aliases
 mkdir $HOME/.todo
