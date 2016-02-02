@@ -222,6 +222,7 @@ alias .........='cd ../../../../../../../..'
 alias objdbin_x86='objdump -D -b binary -mi386'
 alias idlecp='ionice -c 3 cp'
 alias what_are_those_damn_conditional_expressions="man bash | sed -n '/^CONDITIONAL EXPRESSIONS/,/^SIMPLE COMMAND/p'"
+alias what_are_those_damn_builtin_commands="man bash | sed -n '/^SHELL BUILTIN COMMANDS/,/^RESTRICTED SHELL/p'"
 todo(){ cd ~/.todo||return 1&& l=\$(ls -1t|head -n1)&&t=\$(date +%Y%m%d);[[ "\$1" == "last" ]]&&cp \$l \$t; \${EDITOR:-vim} \$t;cd -;} # Todo list.
 notes(){ cd ~/.notes||return 1&& l=\$(ls -1t|head -n1)&&t=\$(date +%Y%m%d);[[ "\$1" == "last" ]]&&cp \$l \$t; \${EDITOR:-vim} \$t;cd -;} # Todo list.
 tagsearch(){ cd ~/.notes||return 1&& grep -H -i "#$1" *; cd - > /dev/null;} #search for tags
