@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get -y install git vim php-cli php-curl
+sudo apt-get -y install git vim php-cli php-curl build-essential
 
 cat <<EOF > $HOME/.bash_colors
 #!/bin/bash
@@ -287,3 +287,7 @@ cd $HOME/git/github
 # install phabricator tools
 git clone https://github.com/phacility/libphutil.git
 git clone https://github.com/phacility/arcanist.git
+
+# install nodejs
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+sudo apt-get install -y nodejs
