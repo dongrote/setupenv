@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get -y install vim fluxbox
+sudo apt-get -y install git vim php-cli php-curl
 
 cat <<EOF > $HOME/.bash_colors
 #!/bin/bash
@@ -79,10 +79,6 @@ On_IWhite='\\e[0;107m'   # White
 EOF
 
 cat << EOF > $HOME/.vimrc
-au FileType python set ofu=jedi#complete
-let g:SuperTabDefaultCompletionType = "context"
-
-
 " vimrc file for following the coding standards specified in PEP 7 & 8.
 "
 " To use this file, source it in your own personal .vimrc file (``source
@@ -114,7 +110,7 @@ fu Select_c_style()
     if search('^\t', 'n', 150)
         set shiftwidth=4
         set noexpandtab
-    el 
+    el
         set shiftwidth=4
         set expandtab
     en
@@ -131,7 +127,7 @@ au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " Wrap text after a certain number of characters
-" Python: 79 
+" Python: 79
 " C: 79
 " au BufRead,BufNewFile *.py,*.pyw,*.c,*.h set textwidth=79
 
@@ -189,9 +185,6 @@ set statusline=%f                           " file name
 set statusline+=%m      "modified flag
 set statusline+=%r      "read only flag
 
-" Puts in the current git status
-set statusline+=\ %{fugitive#statusline()}
-
 set statusline+=\ %=                        " align left
 "set statusline+=Line:%l/%L[%p%%]            " line X of Y [percent of file]
 set statusline+=Line:%l/%L                  " line X of Y
@@ -220,23 +213,9 @@ alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 alias .........='cd ../../../../../../../..'
 alias objdbin_x86='objdump -D -b binary -mi386'
-alias idlecp='ionice -c 3 cp'
 alias what_are_those_damn_conditional_expressions="man bash | sed -n '/^CONDITIONAL EXPRESSIONS/,/^SIMPLE COMMAND/p'"
 alias what_are_those_damn_builtin_commands="man bash | sed -n '/^SHELL BUILTIN COMMANDS/,/^RESTRICTED SHELL/p'"
-todo(){ cd ~/.todo||return 1&& l=\$(ls -1t|head -n1)&&t=\$(date +%Y%m%d);[[ "\$1" == "last" ]]&&cp \$l \$t; \${EDITOR:-vim} \$t;cd -;} # Todo list.
-notes(){ cd ~/.notes||return 1&& l=\$(ls -1t|head -n1)&&t=\$(date +%Y%m%d);[[ "\$1" == "last" ]]&&cp \$l \$t; \${EDITOR:-vim} \$t;cd -;} # Todo list.
-tagsearch(){ cd ~/.notes||return 1&& grep -H -i "#$1" *; cd - > /dev/null;} #search for tags
-alias zsnes='zsnes -ad sdl'
 alias cleanpyc='rm -f \$(find . -name "*.pyc")'
-function fuck() {
-  killall -9 \$2;
-  if [ \$? == 0 ]
-  then
-    echo
-	echo " (╯°□°）╯︵\$(echo \$2|flip &2>/dev/null)"
-    echo
-  fi
-}
 function gitbranch() {
   git status 2>/dev/null 1>&2
   if [ \$? == 0 ]
@@ -282,7 +261,7 @@ rm -f $HOME/.bashrc.orig
 
 cat << EOF >> $HOME/.bashrc
 export PYTHONSTARTUP=~/.pythonrc
-export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/bin:$HOME/git/github/arcanist/bin
 PROMPT_COMMAND='gitbranch'
 PS1='\$([ \$? == 0 ] && echo -en "\\e[0;32m=)\\e[0m" || echo -en "\\e[0;31m=(\\e[0m") \[\\e[m\\e[1;30m\][\j:\!\[\\e[1;30m\]]\[\\e[0;36m\] \t \d \[\\e[1;30m\][\[\\e[1;34m\]\u@\H\[\\e[1;30m\]:\[\\e[0;37m\] \[\\e[0;32m\]+\${SHLVL}\[\\e[1;30m\]] \[\\e[1;37m\]\w\[\\e[38;5;2m\]\$([ "\$GIT_BRANCH" == ":master" ] && echo -e "\\e[1;31m\$GIT_BRANCH\\e[0m" || echo -e "\\e[38;5;2m\$GIT_BRANCH\\e[0m")\[\\e[0m\]\n\\\$ '
 EOF
@@ -298,159 +277,13 @@ git config --global core.editor $(which vim)
 # install virtualenv for python dev
 sudo apt-get install python-pip
 sudo pip install virtualenv
-sudo pip install nose
 sudo pip install coverage
 
-# create home directory for todo list command in $HOME/.bash_aliases
-mkdir $HOME/.todo
 
 mkdir $HOME/bin
-cat << EOF > $HOME/bin/dircmp
-#!/bin/bash
-comm -3 <(ls -1 \$1) <(ls -1 \$2)
-EOF
-chmod a+x $HOME/bin/dircmp
-
-cat <<EOF > $HOME/bin/hex2dec
-#!/bin/bash
-cmd="ibase=16"
-for num in \$@
-do
-	cmd="\$cmd; \$num"
-done
-echo \$cmd | bc
-EOF
-chmod a+x $HOME/bin/hex2dec
-
-cat <<EOF > $HOME/bin/dec2hex
-#!/bin/bash
-cmd="obase=16"
-for num in \$@
-do
-	cmd="\$cmd; \$num"
-done
-echo \$cmd | bc
-EOF
-chmod a+x $HOME/bin/dec2hex
-
-cat <<EOF > $HOME/bin/dec2bin
-#!/bin/bash
-cmd="obase=2"
-for num in \$@
-do
-	cmd="\$cmd; \$num"
-done
-echo \$cmd | bc
-EOF
-chmod a+x $HOME/bin/dec2bin
-
-cat <<EOF > $HOME/bin/bin2dec
-#!/bin/bash
-cmd="ibase=2"
-for num in \$@
-do
-	cmd="\$cmd; \$num"
-done
-echo \$cmd | bc
-EOF
-chmod a+x $HOME/bin/bin2dec
-
-cat <<EOF > $HOME/bin/flip
-#!/usr/bin/env perl
-# Script by Lars Noodén
-
-use strict;
-use warnings;
-use utf8;
-
-binmode(STDOUT, ":utf8");
-
-my %flipTable = (
-    "a" => "\x{0250}",
-    "b" => "q",
-    "c" => "\x{0254}", 
-    "d" => "p",
-    "e" => "\x{01DD}",
-    "f" => "\x{025F}", 
-    "g" => "\x{0183}",
-    "h" => "\x{0265}",
-    "i" => "\x{0131}", 
-    "j" => "\x{027E}",
-    "k" => "\x{029E}",
-    "l" => "|",
-    "m" => "\x{026F}",
-    "n" => "u",
-    "o" => "o",
-    "p" => "d",
-    "q" => "b",
-    "r" => "\x{0279}",
-    "s" => "s",
-    "t" => "\x{0287}",
-    "u" => "n",
-    "v" => "\x{028C}",
-    "w" => "\x{028D}",
-    "x" => "x",
-    "y" => "\x{028E}",
-    "z" => "z",
-    "A" => "\x{0250}",
-    "B" => "q",
-    "C" => "\x{0254}", 
-    "D" => "p",
-    "E" => "\x{01DD}",
-    "F" => "\x{025F}", 
-    "G" => "\x{0183}",
-    "H" => "\x{0265}",
-    "I" => "\x{0131}", 
-    "J" => "\x{027E}",
-    "K" => "\x{029E}",
-    "L" => "|",
-    "M" => "\x{026F}",
-    "N" => "u",
-    "O" => "o",
-    "P" => "d",
-    "Q" => "b",
-    "R" => "\x{0279}",
-    "S" => "s",
-    "T" => "\x{0287}",
-    "U" => "n",
-    "V" => "\x{028C}",
-    "W" => "\x{028D}",
-    "X" => "x",
-    "Y" => "\x{028E}",
-    "Z" => "z",
-    "." => "\x{02D9}",
-    "[" => "]",
-    "'" => ",",
-    "," => "'",
-    "(" => ")",
-    "{" => "}",
-    "?" => "\x{00BF}", 
-    "!" => "\x{00A1}",
-    "\"" => ",",
-    "<" => ">",
-    "_" => "\x{203E}",
-    ";" => "\x{061B}",
-    "\x{203F}" => "\x{2040}",
-    "\x{2045}" => "\x{2046}",
-    "\x{2234}" => "\x{2235}",
-    "\r" => "\n",
-    " " => " "
-);
-
-while ( <> ) {
-    my \$string = reverse( \$_ );
-    while (\$string =~ /(.)/g) {
-        print \$flipTable{\$1};
-    }
-    print qq(\n);
-}
-EOF
-chmod a+x $HOME/bin/flip
-
-# install fugitive.vim
-mkdir -p ~/.vim/autoload ~/.vim/bundle; 
-curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-git clone git://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
-
-# startup vmware-user in fluxbox
-sed -i 's/^exec fluxbox/vmware-user \&\nexec fluxbox/' $HOME/.fluxbox/startup
+# create git cloning directories
+mkdir -p $HOME/git/github
+cd $HOME/git/github
+# install phabricator tools
+git clone https://github.com/phacility/libphutil.git
+git clone https://github.com/phacility/arcanist.git
