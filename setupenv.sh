@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get -y install git vim php-cli php-curl build-essential
+sudo apt-get -y install git vim php-cli php-curl build-essential mysql-server tree
 
 cat <<EOF > $HOME/.bash_colors
 #!/bin/bash
@@ -291,3 +291,4 @@ git clone https://github.com/phacility/arcanist.git
 # install nodejs
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y nodejs
+sudo npm install -g mocha
