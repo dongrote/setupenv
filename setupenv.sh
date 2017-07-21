@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get -y install git vim php-cli php-curl build-essential mysql-server tree
+sudo apt-get -y install git vim php5-cli php5-curl build-essential mysql-server tree htop
 
 cat <<EOF > $HOME/.bash_colors
 #!/bin/bash
@@ -261,7 +261,7 @@ rm -f $HOME/.bashrc.orig
 
 cat << EOF >> $HOME/.bashrc
 export PYTHONSTARTUP=~/.pythonrc
-export PATH=$PATH:$HOME/bin:$HOME/git/github/arcanist/bin
+export PATH=\$PATH:\$HOME/bin:\$HOME/git/github/arcanist/bin
 PROMPT_COMMAND='gitbranch'
 PS1='\$([ \$? == 0 ] && echo -en "\\e[0;32m=)\\e[0m" || echo -en "\\e[0;31m=(\\e[0m") \[\\e[m\\e[1;30m\][\j:\!\[\\e[1;30m\]]\[\\e[0;36m\] \t \d \[\\e[1;30m\][\[\\e[1;34m\]\u@\H\[\\e[1;30m\]:\[\\e[0;37m\] \[\\e[0;32m\]+\${SHLVL}\[\\e[1;30m\]] \[\\e[1;37m\]\w\[\\e[38;5;2m\]\$([ "\$GIT_BRANCH" == ":master" ] && echo -e "\\e[1;31m\$GIT_BRANCH\\e[0m" || echo -e "\\e[38;5;2m\$GIT_BRANCH\\e[0m")\[\\e[0m\]\n\\\$ '
 EOF
@@ -287,6 +287,8 @@ cd $HOME/git/github
 # install phabricator tools
 git clone https://github.com/phacility/libphutil.git
 git clone https://github.com/phacility/arcanist.git
+cd $HOME/git/github/arcanist ; git checkout stable ; cd -
+cd $HOME/git/github/libphutil ; git checkout stable ; cd -
 
 # install nodejs
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
