@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get -y install git vim php5-cli php5-curl build-essential mysql-server tree htop
+sudo apt-get -y install git vim php5-cli php5-curl build-essential mysql-server tree htop curl
 
 cat <<EOF > $HOME/.bash_colors
 #!/bin/bash
